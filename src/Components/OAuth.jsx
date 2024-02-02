@@ -2,6 +2,7 @@ import React from "react";
 import { GoogleAuthProvider, getAuth, signInWithPopup } from "firebase/auth";
 import { app } from "../firebase";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 export default function OAuth() {
 
@@ -15,12 +16,16 @@ export default function OAuth() {
       const result = await signInWithPopup(auth, provider);
 
       const userInfo = {
-        name: result.user.displayName,
         email: result.user.email,
         photo: result.user.photoURL,
       };
 
-      console.log('result', userInfo)
+      const res = await axios.post(
+        `${import.meta.env.VITE_BASE_URL}/api/auth/google-auth`,
+        userInfo
+      );
+
+      console.log('res', res)
       navigate("/home");
 
     } catch (error) {
