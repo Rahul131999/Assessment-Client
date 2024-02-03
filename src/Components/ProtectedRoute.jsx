@@ -1,7 +1,10 @@
-import React from 'react'
-import { Navigate, Outlet } from 'react-router-dom';
+import React, { useContext } from "react";
+import { Navigate } from "react-router-dom";
+import { UserContext } from "../App";
 
-export default function ProtectedRoute() {
-  const currentUser = {n:""}
-  return currentUser ? <Outlet/> : <Navigate to="/"/>
+export default function ProtectedRoute({ children }) {
+  const {userData} = useContext(UserContext)
+  const token = userData?.token
+  
+  return <>{token ?  children  : <Navigate to="/" />}</>;
 }

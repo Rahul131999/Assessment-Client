@@ -1,11 +1,12 @@
-import React from "react";
+import React, { useContext } from "react";
 import { GoogleAuthProvider, getAuth, signInWithPopup } from "firebase/auth";
 import { app } from "../firebase";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { UserContext } from "../App";
 
 export default function OAuth() {
-
+  const {userData, setUserData} = useContext(UserContext)
   const navigate = useNavigate();
 
   async function handleGoogleClick() {
@@ -20,12 +21,14 @@ export default function OAuth() {
         photo: result.user.photoURL,
       };
 
-      const res = await axios.post(
+      const userData = await axios.post(
         `${import.meta.env.VITE_BASE_URL}/api/auth/google-auth`,
         userInfo
       );
 
-      console.log('res', res)
+      console.log('res', userData)
+      setUserData(userData.data)
+
       navigate("/home");
 
     } catch (error) {
