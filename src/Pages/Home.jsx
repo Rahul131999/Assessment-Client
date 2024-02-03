@@ -9,7 +9,7 @@ function Home() {
   const fetchActiveUsers = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:3000/api/customers/active",
+        `${import.meta.env.VITE_BASE_URL}/api/customers/active`,
         { withCredentials: true }
       );
       setCustomers(response.data);
@@ -23,7 +23,7 @@ function Home() {
     try {
       console.log(account);
       const response = await axios.get(
-        `http://localhost:3000/api/transactions/${account}`,
+        `${import.meta.env.VITE_BASE_URL}/api/transactions/${account}`,
         { withCredentials: true }
       );
 
@@ -33,7 +33,6 @@ function Home() {
         return dateB - dateA;
       });
       setTransactions(sortedTransactions);
-      console.log("response.data", response);
     } catch (error) {
       console.error("Error fetching transactions:", error);
     }
