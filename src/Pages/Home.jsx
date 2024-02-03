@@ -23,9 +23,10 @@ function Home() {
     try {
       console.log(account);
       const response = await axios.get(
-        `http://localhost:3000/api/transactions/${account}`
+        `http://localhost:3000/api/transactions/${account}`,
+        { withCredentials: true }
       );
-      
+
       const sortedTransactions = response.data.sort((a, b) => {
         const dateA = new Date(a.date);
         const dateB = new Date(b.date);
@@ -82,34 +83,50 @@ function Home() {
       </table>
       {selectedAccount && (
         <div className="mt-4">
-        <h2 className="text-lg font-bold mb-2">Transactions for Account ID: {selectedAccount}</h2>
-        <div className="overflow-x-auto">
-          <table className="min-w-full border border-gray-300">
-            <thead className="bg-gray-200">
-              <tr>
-                <th className="border px-4 py-2 text-center">Date</th>
-                <th className="border px-4 py-2 text-center">Amount</th>
-                <th className="border px-4 py-2 text-center">Transaction Code</th>
-                <th className="border px-4 py-2 text-center">Symbol</th>
-                <th className="border px-4 py-2 text-center">Price</th>
-                <th className="border px-4 py-2 text-center">Total</th>
-              </tr>
-            </thead>
-            <tbody>
-              {transactions.map((transaction) => (
-                <tr key={transaction._id}>
-                  <td className="border px-4 py-2 text-center">{formatDateString(transaction.date)}</td>
-                  <td className="border px-4 py-2 text-center">{transaction.amount}</td>
-                  <td className="border px-4 py-2 text-center">{transaction.transaction_code}</td>
-                  <td className="border px-4 py-2 text-center">{transaction.symbol}</td>
-                  <td className="border px-4 py-2 text-center">{transaction.price.toFixed(2)}</td>
-                  <td className="border px-4 py-2 text-center">{transaction.total.toFixed(2)}</td>
+          <h2 className="text-lg font-bold mb-2">
+            Transactions for Account ID: {selectedAccount}
+          </h2>
+          <div className="overflow-x-auto">
+            <table className="min-w-full border border-gray-300">
+              <thead className="bg-gray-200">
+                <tr>
+                  <th className="border px-4 py-2 text-center">Date</th>
+                  <th className="border px-4 py-2 text-center">Amount</th>
+                  <th className="border px-4 py-2 text-center">
+                    Transaction Code
+                  </th>
+                  <th className="border px-4 py-2 text-center">Symbol</th>
+                  <th className="border px-4 py-2 text-center">Price</th>
+                  <th className="border px-4 py-2 text-center">Total</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {transactions.map((transaction) => (
+                  <tr key={transaction._id}>
+                    <td className="border px-4 py-2 text-center">
+                      {formatDateString(transaction.date)}
+                    </td>
+                    <td className="border px-4 py-2 text-center">
+                      {transaction.amount}
+                    </td>
+                    <td className="border px-4 py-2 text-center">
+                      {transaction.transaction_code}
+                    </td>
+                    <td className="border px-4 py-2 text-center">
+                      {transaction.symbol}
+                    </td>
+                    <td className="border px-4 py-2 text-center">
+                      {transaction.price.toFixed(2)}
+                    </td>
+                    <td className="border px-4 py-2 text-center">
+                      {transaction.total.toFixed(2)}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
-      </div>
       )}
     </div>
   );
