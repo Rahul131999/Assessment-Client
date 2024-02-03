@@ -4,7 +4,7 @@ import { UserContext } from "../App";
 
 export default function ProtectedRoute({ children }) {
   const {userData} = useContext(UserContext)
-  const token = userData?.token
-  
+  const token = document.cookie
+  console.log('token', token)
   return <>{token ?  children  : <Navigate to="/" />}</>;
 }

@@ -21,13 +21,19 @@ export default function OAuth() {
         photo: result.user.photoURL,
       };
 
-      const userData = await axios.post(
+      const respnse = await axios.post(
         `${import.meta.env.VITE_BASE_URL}/api/auth/google-auth`,
         userInfo
       );
 
-      console.log('res', userData)
-      setUserData(userData.data)
+      const userData = respnse.data
+
+      document.cookie = `access_token=${userData?.token}`
+
+      const {token, ...safeUserData} = userData 
+
+      console.log('res', safeUserData)
+      setUserData(safeUserData)
 
       navigate("/home");
 
